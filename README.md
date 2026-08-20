@@ -1,5 +1,11 @@
 # My Ecosystem
 
+### 🧭 [**ABRIR LA WEB →**](https://donjimbo.github.io/My_ecosystem/)
+
+*(Al hacer clic en `index.html` arriba en la lista de archivos, GitHub solo enseña el código — nunca abre la web en sí, en ningún repo del mundo. Usa el enlace de arriba en su lugar.)*
+
+---
+
 Panel personal, público, que conecta mis dos frentes:
 
 - 🤖 **Agentes** — [`Inventario-agentes`](https://github.com/DonJimbo/Inventario-agentes) (privado). Se lanzan como comandos dentro de Claude Code (`/job-hunter`, etc.).
