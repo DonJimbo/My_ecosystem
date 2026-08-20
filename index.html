@@ -240,6 +240,52 @@
     width: fit-content;
   }
 
+  .launch-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .ghost-link {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--sub);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--border2);
+  }
+  .ghost-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  .setup-banner {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow);
+  }
+  .setup-banner-title {
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .setup-steps {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: var(--sub);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .setup-steps code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    background: var(--surf);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--ink);
+  }
+
   .launch-btn {
     display: inline-flex;
     align-items: center;
@@ -330,6 +376,15 @@
     <p class="lede">Un solo sitio para llegar a tus agentes automatizados y a tus programas de escritorio. Los agentes se lanzan como comandos dentro de Claude Code; los programas se abren como aplicaciones aparte.</p>
   </header>
 
+  <div class="setup-banner">
+    <div class="setup-banner-title">⚙️ Configuración inicial (1 vez por ordenador)</div>
+    <ol class="setup-steps">
+      <li>Clona <code>My_ecosystem</code>, <code>Life_manager</code> y <code>Radar_ingestion</code> en la misma carpeta.</li>
+      <li>Dentro de <code>My_ecosystem</code>, ejecuta <code>setup\register-launchers.bat</code> (doble clic).</li>
+      <li>Ya está — los botones <strong>"▶ Abrir app"</strong> de abajo funcionan. La primera vez el navegador pedirá confirmar, dale a Permitir.</li>
+    </ol>
+  </div>
+
   <section>
     <div class="section-head">
       <div class="section-title"><span class="swatch" style="background:var(--agent)"></span>Agentes</div>
@@ -389,8 +444,11 @@
           <span class="pill pill--live"><span class="pill-dot"></span>Disponible</span>
         </div>
         <p class="card-desc">Graba reuniones, transcribe y genera notas con IA, controla tu focus time, y se integra con Outlook y OneNote. Vive en el repo <code style="font-family:'IBM Plex Mono',monospace;font-size:12px">life_manager</code> como "My Working Hub".</p>
-        <a class="launch-btn on-soft" href="https://github.com/DonJimbo/Life_manager" target="_blank" rel="noopener">Ver en GitHub →</a>
-        <div class="soft-detail">Repo privado — solo lo ves tú, logueado. Para usarlo de verdad: clona el repo en cualquier PC Windows y ejecuta <code style="font-family:'IBM Plex Mono',monospace">launch-widget.bat</code> — se instala solo. Ninguna página web puede sustituir eso (graba tu micrófono y lee Outlook/OneNote de esa máquina).</div>
+        <div class="launch-row">
+          <a class="launch-btn on-soft" href="myeco-recorder://open">▶ Abrir app</a>
+          <a class="ghost-link" href="https://github.com/DonJimbo/Life_manager" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <div class="soft-detail">El botón necesita el registro de protocolos de arriba ⚙️ (una vez por ordenador). Sin eso, no hará nada — usa el enlace de GitHub mientras tanto. Repo privado, solo lo ves tú logueado.</div>
       </div>
 
       <div class="card">
@@ -399,8 +457,11 @@
           <span class="pill pill--live"><span class="pill-dot"></span>Disponible</span>
         </div>
         <p class="card-desc">Convierte fuentes externas (YouTube, podcasts, PDFs, artículos) en paquetes de research estructurados — resumen, tesis, activos, riesgos — para tu Bloque C / Análisis. Mini-software de tu portafolio de inversión personal.</p>
-        <a class="launch-btn on-soft" href="https://github.com/DonJimbo/Radar_ingestion" target="_blank" rel="noopener">Ver en GitHub →</a>
-        <div class="soft-detail">Repo privado — solo lo ves tú, logueado. Es una app Streamlit local: clona el repo en tu PC y ejecuta <code style="font-family:'IBM Plex Mono',monospace">Arrancar_Radar_Ingestor.bat</code> — instala dependencias la primera vez y se abre solo en el navegador.</div>
+        <div class="launch-row">
+          <a class="launch-btn on-soft" href="myeco-radar://open">▶ Abrir app</a>
+          <a class="ghost-link" href="https://github.com/DonJimbo/Radar_ingestion" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <div class="soft-detail">El botón necesita el registro de protocolos de arriba ⚙️ (una vez por ordenador). Sin eso, no hará nada — usa el enlace de GitHub mientras tanto. Repo privado, solo lo ves tú logueado.</div>
       </div>
 
     </div>
