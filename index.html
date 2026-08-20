@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Centro de Mando</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg:        #eef1ee;
+    --surf:      #f7f9f6;
+    --card:      #ffffff;
+    --border:    #d8ddd6;
+    --border2:   #c3cbc0;
+    --ink:       #1c2420;
+    --sub:       #4d5850;
+    --muted:     #8b9689;
+
+    --agent:     #2f6f62;
+    --agent-bg:  #e2ede9;
+    --agent-ink: #1f4e44;
+
+    --soft:      #a5622b;
+    --soft-bg:   #f3e6d8;
+    --soft-ink:  #7c491f;
+
+    --live:      #2f9e58;
+    --planned:   #97a196;
+    --danger:    #b3432f;
+
+    --shadow: 0 1px 3px rgba(28,36,32,.06), 0 8px 24px -12px rgba(28,36,32,.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #141a17;
+      --surf:      #1a221e;
+      --card:      #1f2925;
+      --border:    #2c3833;
+      --border2:   #3b4a43;
+      --ink:       #eaf1ec;
+      --sub:       #b7c3bc;
+      --muted:     #718077;
+
+      --agent:     #6fbfa8;
+      --agent-bg:  #1d3730;
+      --agent-ink: #9adfc8;
+
+      --soft:      #e0a565;
+      --soft-bg:   #3a2c1c;
+      --soft-ink:  #eec293;
+
+      --live:      #52c57f;
+      --planned:   #6b756c;
+      --danger:    #e0705a;
+
+      --shadow: 0 1px 3px rgba(0,0,0,.35), 0 12px 32px -14px rgba(0,0,0,.55);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg:        #141a17;
+    --surf:      #1a221e;
+    --card:      #1f2925;
+    --border:    #2c3833;
+    --border2:   #3b4a43;
+    --ink:       #eaf1ec;
+    --sub:       #b7c3bc;
+    --muted:     #718077;
+
+    --agent:     #6fbfa8;
+    --agent-bg:  #1d3730;
+    --agent-ink: #9adfc8;
+
+    --soft:      #e0a565;
+    --soft-bg:   #3a2c1c;
+    --soft-ink:  #eec293;
+
+    --live:      #52c57f;
+    --planned:   #6b756c;
+    --danger:    #e0705a;
+
+    --shadow: 0 1px 3px rgba(0,0,0,.35), 0 12px 32px -14px rgba(0,0,0,.55);
+  }
+
+  * , *::before, *::after { box-sizing: border-box; }
+
+  html { background: var(--bg); }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  a { color: inherit; }
+
+  #page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 56px 28px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(32px, 5vw, 44px);
+    letter-spacing: -.01em;
+    margin: 0;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .lede {
+    max-width: 62ch;
+    font-size: 15.5px;
+    color: var(--sub);
+    margin: 0;
+  }
+
+  /* ── Section ── */
+  section { display: flex; flex-direction: column; gap: 18px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -.005em;
+  }
+  .section-title .swatch {
+    width: 10px; height: 10px; border-radius: 3px; flex: none;
+  }
+  .section-note {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: var(--shadow);
+  }
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .card-name {
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--sub);
+    margin: -6px 0 0;
+    line-height: 1.55;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex: none;
+  }
+  .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+  .pill--live  { background: color-mix(in srgb, var(--live) 16%, transparent); color: var(--live); }
+  .pill--live .pill-dot  { background: var(--live); box-shadow: 0 0 5px color-mix(in srgb, var(--live) 70%, transparent); }
+  .pill--planned { background: color-mix(in srgb, var(--planned) 20%, transparent); color: var(--sub); }
+  .pill--planned .pill-dot { background: var(--planned); }
+
+  .card-cmd {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--sub);
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 10px;
+    width: fit-content;
+  }
+
+  .launch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    align-self: flex-start;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter .15s, transform .1s;
+    font-family: inherit;
+  }
+  .launch-btn:hover { filter: brightness(1.08); }
+  .launch-btn:active { transform: translateY(1px); }
+  .launch-btn.on-agent { background: var(--agent); color: #fff; }
+  .launch-btn.on-soft  { background: var(--soft);  color: #fff; }
+  .launch-btn[disabled], .launch-btn.disabled {
+    background: var(--surf);
+    color: var(--muted);
+    border: 1px dashed var(--border2);
+    cursor: default;
+  }
+  .launch-btn[disabled]:hover, .launch-btn.disabled:hover { filter: none; }
+
+  /* ── How-to disclosure (agents) ── */
+  details.howto { border-top: 1px solid var(--border); padding-top: 12px; margin-top: -2px; }
+  details.howto summary {
+    cursor: pointer;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--agent-ink);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  details.howto summary::-webkit-details-marker { display: none; }
+  details.howto summary::before {
+    content: '▸';
+    font-size: 10px;
+    transition: transform .15s;
+  }
+  details.howto[open] summary::before { transform: rotate(90deg); }
+  .howto-body {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--sub);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .howto-body code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    background: var(--agent-bg);
+    color: var(--agent-ink);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .howto-body a { color: var(--agent-ink); text-decoration: underline; text-underline-offset: 2px; }
+
+  .soft-detail {
+    font-size: 12.5px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+
+  footer {
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+</style>
+
+
+</head>
+<body>
+<div id="page">
+
+  <header>
+    <div class="eyebrow">my_ecosystem · panel público, sin datos sensibles</div>
+    <h1>Centro de mando</h1>
+    <p class="lede">Un solo sitio para llegar a tus agentes automatizados y a tus programas de escritorio. Los agentes se lanzan como comandos dentro de Claude Code; los programas se abren como aplicaciones aparte.</p>
+  </header>
+
+  <section>
+    <div class="section-head">
+      <div class="section-title"><span class="swatch" style="background:var(--agent)"></span>Agentes</div>
+      <div class="section-note">inventario-agentes · buscar → filtrar → reportar → tú apruebas → actuar</div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Job Hunter</div>
+          <span class="pill pill--live"><span class="pill-dot"></span>Activo</span>
+        </div>
+        <p class="card-desc">Busca ofertas de empleo, las puntúa contra tus criterios, prepara CV y carta adaptados, y solo envía o hace seguimiento con tu aprobación explícita.</p>
+        <div class="card-cmd">/job-hunter</div>
+        <details class="howto">
+          <summary>Cómo lanzarlo</summary>
+          <div class="howto-body">
+            <span>Abre Claude Code dentro de la carpeta <code>inventario-agentes</code> y escribe <code>/job-hunter</code>. No hace falta nada más — el agente lee tus preferencias y te presenta un reporte antes de tocar nada.</span>
+            <a href="https://github.com/DonJimbo/Inventario-agentes" target="_blank" rel="noopener">Ver el repositorio en GitHub →</a>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Moto Finder</div>
+          <span class="pill pill--planned"><span class="pill-dot"></span>Planificado</span>
+        </div>
+        <p class="card-desc">Vigilaría Wallapop, Milanuncios y coches.net para encontrar moto en Madrid dentro de tus criterios. Aún no tiene cerebro escrito.</p>
+        <button class="launch-btn disabled" disabled>Aún sin construir</button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Company Research</div>
+          <span class="pill pill--planned"><span class="pill-dot"></span>Planificado</span>
+        </div>
+        <p class="card-desc">Research financiero de empresas a partir de resultados públicos y prensa económica. Solo informativo, sin acciones. Aún no tiene cerebro escrito.</p>
+        <button class="launch-btn disabled" disabled>Aún sin construir</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div class="section-title"><span class="swatch" style="background:var(--soft)"></span>Software</div>
+      <div class="section-note">life_manager · apps de escritorio</div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Smart Recorder</div>
+          <span class="pill pill--live"><span class="pill-dot"></span>Disponible</span>
+        </div>
+        <p class="card-desc">Graba reuniones, transcribe y genera notas con IA, controla tu focus time, y se integra con Outlook y OneNote. Vive en el repo <code style="font-family:'IBM Plex Mono',monospace;font-size:12px">life_manager</code> como "My Working Hub".</p>
+        <a class="launch-btn on-soft" href="https://github.com/DonJimbo/Life_manager" target="_blank" rel="noopener">Ver en GitHub →</a>
+        <div class="soft-detail">Repo privado — solo lo ves tú, logueado. Para usarlo de verdad: clona el repo en cualquier PC Windows y ejecuta <code style="font-family:'IBM Plex Mono',monospace">launch-widget.bat</code> — se instala solo. Ninguna página web puede sustituir eso (graba tu micrófono y lee Outlook/OneNote de esa máquina).</div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    Vive en <a href="https://github.com/DonJimbo/My_ecosystem" target="_blank" rel="noopener" style="text-decoration:underline">github.com/DonJimbo/My_ecosystem</a>, publicada con GitHub Pages — ábrela con un clic desde cualquier ordenador. Refleja el estado real de <code style="font-family:'IBM Plex Mono',monospace">inventario-agentes</code> y <code style="font-family:'IBM Plex Mono',monospace">life_manager</code>; actualízala cuando des de alta un agente o software nuevo.
+  </footer>
+
+</div>
+
+</body>
+</html>
