@@ -1,6 +1,5 @@
 @echo off
 setlocal enabledelayedexpansion
-chcp 65001 >nul
 
 echo ============================================
 echo   MY ECOSYSTEM - Instalador de 1 clic
@@ -19,7 +18,12 @@ set /p "INPUT=> "
 if not "%INPUT%"=="" set "DEST=%INPUT%"
 
 if not exist "%DEST%" mkdir "%DEST%"
-cd /d "%DEST%" || (echo No puedo entrar en %DEST% & pause & exit /b 1)
+cd /d "%DEST%"
+if errorlevel 1 (
+    echo No puedo entrar en %DEST%
+    pause
+    exit /b 1
+)
 
 rem --- Git es necesario para descargar los repos ---
 where git >nul 2>nul
@@ -29,8 +33,8 @@ if errorlevel 1 (
     winget install --id Git.Git -e --source winget
     echo.
     echo Git instalado. AHORA CIERRA ESTA VENTANA y vuelve a hacer
-    echo doble clic en install.bat para continuar ^(Windows necesita
-    echo reiniciar la consola para detectar git nuevo^).
+    echo doble clic en install.bat para continuar. Windows necesita
+    echo reiniciar la consola para detectar git nuevo.
     pause
     exit /b 0
 )
@@ -47,8 +51,8 @@ for %%R in (My_ecosystem Life_manager Radar_ingestion) do (
         echo   - Clonando %%R...
         git clone --quiet https://github.com/DonJimbo/%%R.git
         if errorlevel 1 (
-            echo     Fallo al clonar %%R ^(¿repo privado sin sesion de git iniciada?^).
-            echo     Se abrira tu navegador para iniciar sesion la primera vez que uses git.
+            echo     Fallo al clonar %%R. Puede que git te pida iniciar sesion
+            echo     en el navegador la primera vez - hazlo y vuelve a ejecutar.
         )
     )
 )
